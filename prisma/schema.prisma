@@ -12,18 +12,40 @@ datasource db {
 
 model User {
   // TODO: Implement
+  id        Int      @id @default(autoincrement())
+  name      String   
+  email     String   @unique
+
+  // relation
+  posts     Post[]
+  likes     Like[]
 
   @@map("users")
 }
 
 model Post {
   // TODO: Implement
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String
+  authorId  Int  
+
+  //relation
+  author    User     @relation(fields: [authorId], references: [id])
+  likes     Like[]
 
   @@map("posts")
 }
 
 model Like {
   // TODO: Implement
+  id        Int      @id @default(autoincrement())
+  userId    Int      
+  postId    Int
+
+  //relation
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
 
   @@map("likes")
 }

@@ -9,21 +9,55 @@ export class LikesService {
 
   async create(createLikeDto: CreateLikeDto) {
     // TODO: Implement like creation with Prisma
+    const like = await this.prisma.like.create({
+      data: {
+        userId: createLikeDto.userId,
+        postId: createLikeDto.postId,
+      },
+      include: {
+        user: true,
+        post: true,
+      },
+    });
+    return like;
   }
 
   async findAll() {
-    // TODO: Implement find all likes with Prisma
+    return await this.prisma.like.findMany({
+      include: {
+        user: true,
+        post: true,
+      },
+    });
   }
 
   async findOne(id: number) {
-    // TODO: Implement find like by id with Prisma
+    return await this.prisma.like.findUnique({
+      where: { id },
+      include: {
+        user: true,
+        post: true,
+      },
+    });
   }
 
   async update(id: number, updateLikeDto: UpdateLikeDto) {
-    // TODO: Implement like update with Prisma
+    return await this.prisma.like.update({
+      where: { id },
+      data: {
+        userId: updateLikeDto.userId,
+        postId: updateLikeDto.postId,
+      },
+      include: {
+        user: true,
+        post: true,
+      },
+    });
   }
 
   async remove(id: number) {
-    // TODO: Implement like removal with Prisma
+    return await this.prisma.like.delete({
+      where: { id },
+    });
   }
 }
